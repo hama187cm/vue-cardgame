@@ -1,0 +1,35 @@
+
+props:{
+  Spaces: {
+    type: Array,
+    default: function () {
+      return {
+        Spaces: {
+          Space1: [{ name: "areana" }, { name: "Appointment" }],
+          Space2: [],
+          Space3: [{ name: "3" }]
+        }
+      };
+    }
+  }
+},
+
+
+        <v-flex xs3 ma-2 pa-0>
+          <div class="list vList">
+            <draggable
+              :list="Spaces"
+              :move="beforeMove"
+              @end="onEnd"
+              :options="{group:'card'}"
+              :animation="200"
+            >
+              <span class="backlist">Card drag area</span>
+              <v-card dark color="primary" class="pa-2 ma-2 card" width="150px"
+                v-for="item in Spaces" :key="item.name"
+               >
+                  {{item.name}}
+              </v-card>
+            </draggable>
+          </div>
+        </v-flex>
