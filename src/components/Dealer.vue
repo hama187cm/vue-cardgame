@@ -4,20 +4,25 @@
     <v-layout row wrap justify-start>
       <v-flex xs3 ma-1 pa-0>
         <div class="list vList">
-          <span>[Card area]</span>
           <draggable :list="unfinishedTasks" :move="beforeMove" :options="{group:'tasks'}" :animation=300>
-            <span>　a</span>
+            <!-- @end="onEnd"  -->
             <div class="pa-0 ma-0" v-for="task in unfinishedTasks" :key="task.id">
-              <v-card dark color="primary" class="pa-2 ma-2 card" v-if="task.name != 'Card drag area'">
-                  {{task.name}}
-              </v-card>
+              <span v-if="task.name != 'Card drag area'">　
+                <v-card dark color="primary" class="pa-2 ma-2 card">
+                    {{task.name}}
+                </v-card>
+              </span>
+              <span v-else>
+                {{task.name}}
+              </span> 
             </div>
           </draggable>
         </div>
       </v-flex>
       <v-flex xs3 ma-2 pa-0>
         <div class="list vList">
-          <draggable :list="finishedTasks":move="beforeMove" @end="onEnd" :animation=300 :options="{group:'tasks'}">
+          <draggable :list="finishedTasks":move="beforeMove" :animation=300 :options="{group:'tasks'}">
+            <!-- @end="onEnd"  -->
             <div class="pa-0 ma-0" v-for="task in finishedTasks" :key="task.id" >
               <v-card dark color="primary" class="pa-2 ma-2 card" v-if="task.name != 'Card drag area'">
                   {{task.name}}
@@ -46,21 +51,25 @@ export default {
   components: { draggable, Card },
   data() {
     return {
-    unfinishedTasks:[
-      {id:10, name:"Card drag area"}, 
-      {id:11, name:"Create a document"}, 
-      {id:12, name:"Appointment"}
-    ],
-    finishedTasks:[
-      {id:20, name:"Card drag area"},
-      {id:21, name:"Appointment"}
-    ]
+      unfinishedTasks:[
+        {id:10, name:"Card drag area"}, 
+        {id:11, name:"Create a document"}, 
+        {id:12, name:"Appointment"}
+      ],
+      finishedTasks:[
+        {id:20, name:"Card drag area"},
+        {id:21, name:"Appointment"}
+      ]
     };
   },
   methods: {
     beforeMove: function(evt) {
-      console.log(evt.draggedContext.element.name);
+      console.log("beforeMove evt.draggedContext:" +evt.draggedContext);
       return evt.draggedContext.element.name !== "Card drag area";
+    },
+    onEnd: function(evt) {
+      // console.log("onEnd: "+evt.draggedContext.element);
+      // return evt.draggedContext.element.name !== "Card drag area";
     },
     postexec(playerBust) {
       this.hand[0].hide = false;
