@@ -1,26 +1,37 @@
 <template>
-  <div class="dealer">
-    <v-container fluid grid-list-xl>
-      <v-layout row wrap justify-center>
-        <v-flex xs3 ma-2 pa-0
-              v-for="(space, index) in Spaces" v-bind:key="index"
-        >
-          <div class="list vList">
-            <draggable :list="Spaces" :group='Spaces' :animation=300
-              :move="beforeMove" @end="onEnd"
-            >
-                <v-card dark color="primary" class="pa-2 ma-2 card" width="150px"
-                  v-for="(card, index) in space" v-bind:key="index"
-                  >
-                    <span v-if="card.name != 'Card drag area'">{{card.name}}</span>
-                    <span v-else>{{card.name}}</span>
-                </v-card>
-            </draggable>
-          </div>
-        </v-flex>
-      </v-layout>
-    </v-container>
-  </div>
+<div class="dealer">
+  <v-container fluid grid-list-xl>
+    <v-layout row wrap justify-start>
+      <v-flex xs3 ma-1 pa-0>
+        <div class="list vList">
+          <span>[Card area]</span>
+          <draggable :list="unfinishedTasks" :move="beforeMove" :options="{group:'tasks'}" :animation=300>
+            <span>　a</span>
+            <div class="pa-0 ma-0" v-for="task in unfinishedTasks" :key="task.id">
+              <v-card dark color="primary" class="pa-2 ma-2 card" v-if="task.name != 'Card drag area'">
+                  {{task.name}}
+              </v-card>
+            </div>
+          </draggable>
+        </div>
+      </v-flex>
+      <v-flex xs3 ma-2 pa-0>
+        <div class="list vList">
+          <draggable :list="finishedTasks":move="beforeMove" @end="onEnd" :animation=300 :options="{group:'tasks'}">
+            <div class="pa-0 ma-0" v-for="task in finishedTasks" :key="task.id" >
+              <v-card dark color="primary" class="pa-2 ma-2 card" v-if="task.name != 'Card drag area'">
+                  {{task.name}}
+              </v-card>
+              <span v-else>
+                {{task.name}}
+              </span> 
+            </div>
+          </draggable>
+        </div>
+      </v-flex>
+    </v-layout>
+  </v-container>
+</div>
 </template>
 
 <script>
@@ -35,40 +46,22 @@ export default {
   components: { draggable, Card },
   data() {
     return {
-      Spaces: [
-        [
-          { name: "Card drag area" },
-          { name: "areana" },
-          { name: "Appointment" }
-        ],
-        [{ name: "Card drag area" }],
-        [{ name: "Card drag area" }, { name: "3" }]
-      ],
-      SpaceNullFags: []
+    unfinishedTasks:[
+      {id:10, name:"Card drag area"}, 
+      {id:11, name:"Create a document"}, 
+      {id:12, name:"Appointment"}
+    ],
+    finishedTasks:[
+      {id:20, name:"Card drag area"},
+      {id:21, name:"Appointment"}
+    ]
     };
   },
-  watch: {
-    dealerId: {
-      handler() {
-        console.log("Space1");
-      },
-      deep: true
-    }
-  },
-  /*** 
-  watch: {
-    'Spaces.Space1': function(){
-        if( Spaces.Space1.length == 0){ SpaceNullFags.push( "Space1" ); console.log( "Space1" ); }
-        console.log( "other" );
-    },
-  },***/
-  /*** 
-  created: function() {
-    //this.hand.push(pick());
-    this.hand[0].hide = true;
-    this.$on("postexec", this.postexec);
-  },***/
   methods: {
+    beforeMove: function(evt) {
+      console.log(evt.draggedContext.element.name);
+      return evt.draggedContext.element.name !== "Card drag area";
+    },
     postexec(playerBust) {
       this.hand[0].hide = false;
       // プレイヤーがBustしてない場合、17を超えるまでカードを引く
@@ -77,17 +70,12 @@ export default {
       }
       this.$emit("result", calc(this.hand));
     },
-    beforeMove: function(evt) {
-      console.log(evt.draggedContext.element.name);
-      return evt.draggedContext.element.name !== "3";
-    },
-    onEnd: function(evt) {
-      //console.log(evt);
-    },
-    getSpaceLength(num) {
-      if ((num = 2)) {
-      }
-    }
   }
+  /*** 
+  created: function() {
+    //this.hand.push(pick());
+    this.hand[0].hide = true;
+    this.$on("postexec", this.postexec);
+  },***/
 };
 </script>

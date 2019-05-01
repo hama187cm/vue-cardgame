@@ -79,40 +79,19 @@ div.player {
   display: flex;
   justify-content: space-around; /*均等に間隔をあける・両端にも間隔をあける*/
 
-  padding: 8px;
-  margin-bottom: 8px;
-  width: 800px;
-  border: 1px solid #222;
-  border-radius: 4px;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
-}
-div.are,
-notuse {
-  padding: 8px;
-  margin: 8px;
-  width: 150px;
-  border: 1px solid #222;
-  border-radius: 4px;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
-}
-
-div.deale,
-notuse {
-  display: flex;
-  justify-content: space-around; /*均等に間隔をあける・両端にも間隔をあける*/
-
-  padding: 8px;
-  margin-bottom: 8px;
+  /* padding: 4px; */
+  /* margin: 4px; */
   width: 800px;
   border: 1px solid #222;
   border-radius: 4px;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
-#ap,
-notuse {
-  display: flex;
-  justify-content: space-around;
+#app {
+  padding: 1px;
+  margin: 1px;  /* [上][右][下][左]のマージン */
+  /* display: flex; */
+  /* justify-content: space-around; */
 }
 .vList {
   witdh: 150px;
