@@ -6,6 +6,7 @@
         <div class="list vList">
           <draggable :list="unfinishedTasks" :move="beforeMove" :options="{group:'tasks'}" :animation=300>
             <!-- @end="onEnd"  -->
+            <span>Card drag area</span>
             <div class="pa-0 ma-0" v-for="task in unfinishedTasks" :key="task.id">
               <span v-if="task.name != 'Card drag area'">　
                 <v-card dark color="primary" class="pa-2 ma-2 card">
@@ -23,6 +24,7 @@
         <div class="list vList">
           <draggable :list="finishedTasks":move="beforeMove" :animation=300 :options="{group:'tasks'}">
             <!-- @end="onEnd"  -->
+            <span>Card drag area</span>
             <div class="pa-0 ma-0" v-for="task in finishedTasks" :key="task.id" >
               <v-card dark color="primary" class="pa-2 ma-2 card" v-if="task.name != 'Card drag area'">
                   {{task.name}}
@@ -52,20 +54,22 @@ export default {
   data() {
     return {
       unfinishedTasks:[
-        {id:10, name:"Card drag area"}, 
+        // {id:10, name:"Card drag area"}, 
         {id:11, name:"Create a document"}, 
         {id:12, name:"Appointment"}
       ],
       finishedTasks:[
-        {id:20, name:"Card drag area"},
+        // {id:20, name:"Card drag area"},
         {id:21, name:"Appointment"}
       ]
     };
   },
   methods: {
     beforeMove: function(evt) {
-      console.log("beforeMove evt.draggedContext:" +evt.draggedContext);
-      return evt.draggedContext.element.name !== "Card drag area";
+      console.log("beforeMove evt.draggedContext:" +evt.draggedContext.element.id);
+      // console.log("beforeMove evt.relatedContext:" +evt.relatedContext.element.name);
+
+      return true; //evt.relatedContext.element.name !== "Card drag area";
     },
     onEnd: function(evt) {
       // console.log("onEnd: "+evt.draggedContext.element);
